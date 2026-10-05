@@ -1,0 +1,12 @@
+{
+  "directory": "dlt-rest-postgres",
+  "name": "dlt REST Postgres",
+  "category": "Analytics",
+  "description": "Paginated REST ingestion with merge loading and PostgreSQL state.",
+  "icon": "https://raw.githubusercontent.com/dlt-hub/dlt/1.30.0/docs/website/static/img/logo.svg",
+  "origins": [
+    {"name": "dlt", "url": "https://github.com/dlt-hub/dlt"},
+    {"name": "PostgreSQL", "url": "https://www.postgresql.org"}
+  ],
+  "publicationStatus": "unpublished"
+}

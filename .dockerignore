@@ -1,0 +1,9 @@
+.git
+.env
+.env.*.local
+.venv
+node_modules
+__pycache__
+.local
+.dlt
+FINDINGS.md

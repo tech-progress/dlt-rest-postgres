@@ -1,0 +1,29 @@
+{
+  "Postgres": {
+    "PORT": "Private PostgreSQL port. Do not create a public TCP proxy.",
+    "POSTGRES_DB": "Database containing both warehouse tables and dlt destination state.",
+    "POSTGRES_USER": "Image initialization administrator; never used by the ingestion process.",
+    "POSTGRES_PASSWORD": "Generated database password; changing this variable alone does not rotate existing database roles.",
+    "DLT_LOADER_PASSWORD": "Separate generated password for the schema-scoped nonsuperuser dlt_loader role; initialized only on an empty volume.",
+    "PGDATA": "Database files below the single-service persistent volume mount."
+  },
+  "dlt Loader": {
+    "PGHOST": "Destination private DNS hostname, not a public database endpoint.",
+    "PGPORT": "Destination PostgreSQL port.",
+    "PGDATABASE": "Database holding warehouse, staging schemas, and dlt pipeline state.",
+    "PGUSER": "Schema-scoped dlt_loader role; no superuser, role creation, database creation, or public-schema writes.",
+    "PGPASSWORD": "Reference to the dedicated ingestion password, never the administrator password.",
+    "PGSSLMODE": "libpq SSL mode; prefer on Railway private networking, verify-full for external TLS databases.",
+    "SOURCE_BASE_URL": "Required operator-supplied HTTPS REST API base URL; no embedded credentials.",
+    "SOURCE_API_TOKEN": "Required operator-supplied read-only API bearer token; not a generated token your upstream would recognize.",
+    "SOURCE_ENDPOINT": "Relative orders endpoint; returns data array and total_pages.",
+    "SOURCE_PAGE_SIZE": "page_size query parameter, integer 1..1000; API must support page-number pagination.",
+    "SOURCE_INITIAL_CURSOR": "Initial updated_at Unix-second watermark, nonnegative integer. Changing it does not reset existing state.",
+    "SOURCE_LOOKBACK_SECONDS": "Nonnegative cursor overlap for bounded late changes; does not capture old deletions or arbitrary backdated updates.",
+    "ALLOW_INSECURE_SOURCE": "Keep false in deployments. true allows the private HTTP test fixture only.",
+    "PIPELINE_NAME": "Stable lowercase pipeline identity; keep unchanged during replacement and upgrades.",
+    "DATASET_NAME": "Stable lowercase destination schema name; changing creates a separate dataset.",
+    "PIPELINES_DIR": "Ephemeral extraction/load scratch directory. Completed state restores from destination, not unfinished local packages.",
+    "RUNTIME__DLTHUB_TELEMETRY": "Disable upstream dlt anonymous telemetry."
+  }
+}

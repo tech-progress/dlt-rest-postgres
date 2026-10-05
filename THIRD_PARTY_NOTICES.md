@@ -1,0 +1,13 @@
+# Third-party notices — source recipe v1.0.1
+
+Original recipe code is MIT under [LICENSE](LICENSE). Unmodified dependencies retain their original grants, copyrights and notices; this document neither rewrites those grants nor certifies an assembled image.
+
+- dlt 1.30.0 is Apache-2.0: [exact source](https://github.com/dlt-hub/dlt/tree/1.30.0), [original license](https://github.com/dlt-hub/dlt/blob/1.30.0/LICENSE.txt).
+- PostgreSQL 17.11 uses the PostgreSQL License: [server source release](https://www.postgresql.org/ftp/source/v17.11/), [license](https://www.postgresql.org/about/licence/), [official image build source](https://github.com/docker-library/postgres). Its Debian dependencies retain independent copyright/notice files.
+- Python 3.12.15 retains PSF and historical terms: [exact source](https://github.com/python/cpython/tree/v3.12.15), [original license](https://github.com/python/cpython/blob/v3.12.15/LICENSE).
+- Source-built psycopg2 2.9.13 retains LGPL-3.0-or-later, its original OpenSSL linking exception and any applicable original optional adapter grants. The exact sdist URL/hash is in [uv.lock](uv.lock); original unchanged texts are [LICENSE](licenses/psycopg2-LICENSE.txt) and [COPYING.LESSER](licenses/psycopg2-COPYING.LESSER.txt). libpq15.19 is dynamically loaded, with Debian `libpq5` copyright material retained under `/usr/share/doc/libpq5/copyright`.
+- uv 0.12.22 is build-only MIT/Apache-2.0: [exact source/terms](https://github.com/astral-sh/uv/tree/0.12.22). The Railway SDK is authoring-only MIT, not a deployed application component.
+
+The runtime copies complete upstream virtualenv trees including metadata/licenses, embedded source headers and vendor notices, rather than stripping package notices. Among the independently applicable transitive terms are certifi MPL-2.0, orjson MPL plus Apache/MIT alternatives, and setuptools' LGPL autocommand/MPL validation payload; see [LICENSE_REVIEW.md](LICENSE_REVIEW.md). MIT/BSD/Apache top-level declarations do not replace those terms. Original selected package URLs and immutable archive hashes are in the dependency lock.
+
+For separately distributing a built image, provide all applicable licenses, notices, covered source and any required source-availability, relinking or modification rights. The supplemental psycopg2 LGPL text references GPLv3 as its incorporated base terms; [the official complete GPLv3 text](https://www.gnu.org/licenses/gpl-3.0.html) must also accompany applicable binary distribution. These instructions/source links are not a blanket fulfillment certificate for an assembled image or all compiled/native payloads. Hosting a source-built recipe is not a claim of vendor endorsement, arbitrary-provider qualification or universal security/legal clearance.

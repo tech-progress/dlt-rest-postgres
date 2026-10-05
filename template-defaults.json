@@ -1,0 +1,29 @@
+{
+  "Postgres": {
+    "PORT": "5432",
+    "POSTGRES_DB": "warehouse",
+    "POSTGRES_USER": "postgres",
+    "POSTGRES_PASSWORD": "${{secret(32, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+    "DLT_LOADER_PASSWORD": "${{secret(32, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+    "PGDATA": "/var/lib/postgresql/data/pgdata"
+  },
+  "dlt Loader": {
+    "PGHOST": "${{Postgres.RAILWAY_PRIVATE_DOMAIN}}",
+    "PGPORT": "5432",
+    "PGDATABASE": "${{Postgres.POSTGRES_DB}}",
+    "PGUSER": "dlt_loader",
+    "PGPASSWORD": "${{Postgres.DLT_LOADER_PASSWORD}}",
+    "PGSSLMODE": "prefer",
+    "SOURCE_BASE_URL": "",
+    "SOURCE_API_TOKEN": "",
+    "SOURCE_ENDPOINT": "orders",
+    "SOURCE_PAGE_SIZE": "50",
+    "SOURCE_INITIAL_CURSOR": "0",
+    "SOURCE_LOOKBACK_SECONDS": "3600",
+    "ALLOW_INSECURE_SOURCE": "false",
+    "PIPELINE_NAME": "rest_orders",
+    "DATASET_NAME": "rest_warehouse",
+    "PIPELINES_DIR": "/tmp/dlt-pipelines",
+    "RUNTIME__DLTHUB_TELEMETRY": "false"
+  }
+}

@@ -1,0 +1,70 @@
+name: rt-dlt-rest-postgres
+services:
+  postgres:
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres
+    environment:
+      POSTGRES_DB: warehouse
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+      DLT_LOADER_PASSWORD: ${DLT_LOADER_PASSWORD:?Set DLT_LOADER_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - warehouse-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U postgres -d warehouse']
+      interval: 3s
+      timeout: 3s
+      retries: 30
+  loader:
+    build:
+      context: .
+      target: runtime
+    environment: &loader-env
+      PGHOST: postgres
+      PGPORT: "5432"
+      PGDATABASE: warehouse
+      PGUSER: dlt_loader
+      PGPASSWORD: ${DLT_LOADER_PASSWORD:?Set DLT_LOADER_PASSWORD}
+      PGSSLMODE: prefer
+      SOURCE_BASE_URL: ${SOURCE_BASE_URL:?Set SOURCE_BASE_URL}
+      SOURCE_API_TOKEN: ${SOURCE_API_TOKEN:?Set SOURCE_API_TOKEN}
+      SOURCE_ENDPOINT: orders
+      SOURCE_PAGE_SIZE: "50"
+      SOURCE_INITIAL_CURSOR: "0"
+      SOURCE_LOOKBACK_SECONDS: "3600"
+      ALLOW_INSECURE_SOURCE: ${ALLOW_INSECURE_SOURCE:-false}
+      PIPELINE_NAME: rest_orders
+      DATASET_NAME: rest_warehouse
+      RUNTIME__DLTHUB_TELEMETRY: "false"
+    depends_on:
+      postgres:
+        condition: service_healthy
+  fixture:
+    profiles: [smoke]
+    build:
+      context: .
+      target: test
+    command: [python, tests/fixture.py]
+    environment:
+      SOURCE_API_TOKEN: ${SOURCE_API_TOKEN:?Set SOURCE_API_TOKEN}
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=2)"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+  smoke:
+    profiles: [smoke]
+    build:
+      context: .
+      target: test
+    command: [python, scripts/smoke.py]
+    environment: *loader-env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      fixture:
+        condition: service_healthy
+volumes:
+  warehouse-data:
